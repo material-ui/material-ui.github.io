@@ -1,0 +1,40 @@
+<div ng-controller="AppCtrl">
+    <div class="action-bar">
+        <ui-icon-button icon="nav-menu" ng-click="showNavigation=!showNavigation"></ui-icon-button>
+        <label class="title">{{$state.current.title}}</label>
+        <ui-icon-button icon="nav-overflow" class="pull-right"></ui-icon-button>
+    </div>
+    <div class="main-body slide-top" ui-view> </div>
+    <ui-navigation active="showNavigation">
+        <ul class="ui-list">
+            <li><a ui-sref="app.welcome">Welcome</a></li>
+            <li><a ui-sref="app.button">Button</a></li>
+            <li><a ui-sref="app.input">Input</a></li>
+            <li><a ui-sref="app.checkbox">Checkbox</a></li>
+            <li><a ui-sref="app.radio">Radio</a></li>
+            <li><a ui-sref="app.tab">Tab</a></li>
+            <li><a ui-sref="app.dialog">Dialog</a></li>
+            <li><a ui-sref="app.actionbar">ActionBar</a></li>
+            <li><a ui-sref="app.dropdownmenu">DropdownMenu</a></li>
+            <li><a  ui-toggle-class="active" target="#icon-list">Icon</a>
+                <ul class="sub-list" id="icon-list">
+                    <li><a ui-sref="app.icon.action">Action</a></li>
+                    <li><a ui-sref="app.icon.alert">Alert</a></li>
+                    <li><a ui-sref="app.icon.av">AV</a></li>
+                    <li><a ui-sref="app.icon.communication">Communication</a></li>
+                    <li><a ui-sref="app.icon.content">Content</a></li>
+                    <li><a  ui-sref="app.icon.device">Device</a></li>
+                    <li><a  ui-sref="app.icon.editor">Editor</a></li>
+                    <li><a  ui-sref="app.icon.file">File</a></li>
+                    <li><a  ui-sref="app.icon.hardware">Hardware</a></li>
+                    <li><a  ui-sref="app.icon.image">Image</a></li>
+                    <li><a ui-sref="app.icon.maps">Maps</a></li>
+                    <li><a  ui-sref="app.icon.navigation">Navigation</a></li>
+                    <li><a ui-sref="app.icon.notification">Notification</a></li>
+                    <li><a ui-sref="app.icon.social">Social</a></li>
+                    <li><a ui-sref="app.icon.toggle">Toggle</a></li>
+                </ul>
+            </li>
+        </ul>
+    </ui-navigation>
+</div>

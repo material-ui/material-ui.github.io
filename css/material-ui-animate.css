@@ -1,0 +1,314 @@
+@-webkit-keyframes ripple {
+    100% {
+        opacity: 0;
+        -webkit-transform: scale(2.5);
+        -ms-transform: scale(2.5);
+        -moz-transform: scale(2.5);
+        -o-transform: scale(2.5);
+        transform: scale(2.5);
+    }
+}
+
+@keyframes ripple {
+    100% {
+        opacity: 0;
+        -webkit-transform: scale(2.5);
+        -ms-transform: scale(2.5);
+        -moz-transform: scale(2.5);
+        -o-transform: scale(2.5);
+        transform: scale(2.5);
+    }
+}
+
+/***旋转动画开始**/
+@-webkit-keyframes rotateout {
+    from {
+        animation: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        opacity: 1;
+    }
+    to {
+        animation: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+        -moz-transform: rotate(45deg);
+        opacity: 0;
+    }
+}
+
+@keyframes rotateout {
+    from {
+        animation: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        opacity: 1;
+    }
+    to {
+        animation: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+        -moz-transform: rotate(45deg);
+        opacity: 0;
+    }
+}
+
+@-webkit-keyframes rotatein {
+    from {
+        animation: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+        -moz-transform: rotate(45deg);
+        opacity: 0;
+    }
+    to {
+        animation: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        opacity: 1;
+    }
+}
+
+@keyframes rotatein {
+    from {
+        animation: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+        -moz-transform: rotate(45deg);
+        opacity: 0;
+    }
+    to {
+        animation: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        opacity: 1;
+    }
+}
+
+/***旋转动画结束**/
+
+@-webkit-keyframes scalein {
+    0% {
+        -webkit-transform: scale(0);
+        -moz-transform: scale(0);
+        transform: scale(0);
+        opacity: 1;
+    }
+    50% {
+        -webkit-transform: scale(0.5);
+        -moz-transform: scale(0.5);
+        transform: scale(0.5);
+    }
+    100% {
+        -webkit-transform: scale(1);
+        -moz-transform: scale(1);
+        transform: scale(1);
+    }
+}
+
+@keyframes scalein {
+    0% {
+        -webkit-transform: scale(0);
+        -moz-transform: scale(0);
+        transform: scale(0);
+        opacity: 1;
+    }
+    50% {
+        -webkit-transform: scale(0.5);
+        -moz-transform: scale(0.5);
+        transform: scale(0.5);
+    }
+    100% {
+        -webkit-transform: scale(1);
+        -moz-transform: scale(1);
+        transform: scale(1);
+    }
+}
+
+@-webkit-keyframes scaleout {
+    0% {
+        -webkit-transform: scale(1);
+        -moz-transform: scale(1);
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        -webkit-transform: scale(0);
+        -moz-transform: scale(0);
+        transform: scale(0);
+        opacity: 0
+    }
+}
+
+@keyframes scaleout {
+    0% {
+        -webkit-transform: scale(1);
+        -moz-transform: scale(1);
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        -webkit-transform: scale(0);
+        -moz-transform: scale(0);
+        transform: scale(0);
+        opacity: 0
+    }
+}
+
+@-webkit-keyframes expand {
+    0% {
+        left: 50%;
+        width: 0px;
+    }
+
+    100% {
+        left: 0;
+        width: 100%;
+    }
+}
+
+@keyframes expand {
+    0% {
+        left: 50%;
+        width: 0px;
+    }
+
+    100% {
+        left: 0;
+        width: 100%;
+    }
+}
+
+@-webkit-keyframes inputfocus {
+    0% {
+        font-size: 14px;
+        top: 8px;
+    }
+
+    100% {
+        top: -8px;
+        font-size: 11px;
+    }
+}
+
+@keyframes inputfocus {
+    0% {
+        font-size: 14px;
+        top: 8px;
+    }
+
+    100% {
+        top: -8px;
+        font-size: 11px;
+    }
+}
+
+@-webkit-keyframes inputblur {
+    0% {
+        top: -8px;
+        font-size: 11px;
+    }
+
+    100% {
+        font-size: 14px;
+        top: 8px;
+    }
+}
+
+@keyframes inputblur {
+    0% {
+        top: -8px;
+        font-size: 11px;
+    }
+
+    100% {
+        font-size: 14px;
+        top: 8px;
+    }
+}
+
+@-webkit-keyframes moveleft {
+    0% {
+        left: 100%;
+    }
+
+    100% {
+        left: 0;
+    }
+}
+
+@keyframes moveleft {
+    0% {
+        left: 100%;
+    }
+
+    100% {
+        left: 0;
+    }
+}
+
+@-webkit-keyframes moveright {
+    0% {
+        left: 0;
+    }
+
+    100% {
+        left: 100%;
+    }
+}
+
+@keyframes moveright {
+    0% {
+        left: 0;
+    }
+
+    100% {
+        left: 100%;
+    }
+}
+
+@-webkit-keyframes touchstart {
+    0% {
+        background: rgba(0, 0, 0, 0)
+
+    }
+
+    100% {
+        background: rgba(0, 0, 0, 0.08)
+
+    }
+}
+
+@keyframes touchstart {
+    0% {
+        background: rgba(0, 0, 0, 0)
+
+    }
+
+    100% {
+        background: rgba(0, 0, 0, 0.08)
+
+    }
+}
+
+@-webkit-keyframes touchend {
+    0% {
+        background: rgba(0, 0, 0, 0.08)
+
+    }
+
+    100% {
+        background: rgba(0, 0, 0, 0)
+
+    }
+}
+
+@keyframes touchend {
+    0% {
+        background: rgba(0, 0, 0, 0.08)
+
+    }
+
+    100% {
+        background: rgba(0, 0, 0, 0)
+
+    }
+}

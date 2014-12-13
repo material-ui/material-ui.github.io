@@ -1,0 +1,11 @@
+<div class="panel" ng-controller="DialogCtrl">
+    <div class="panel-heading">Dialog</div>
+    <div class="panel-body">
+        <ui-raised-button class="bg-info" ng-click="open()">Open Dialog</ui-raised-button>
+    </div>
+    <ui-dialog  ng-model="dialog">
+        <ui-checkbox>Notifications</ui-checkbox>
+        <ui-checkbox>AutoUpdates</ui-checkbox>
+        <ui-checkbox>Clear search history</ui-checkbox>
+    </ui-dialog>
+</div>

@@ -1,0 +1,48 @@
+@font-face {
+    font-family: 'RobotoDraft';
+    font-style: normal;
+    font-weight: 100;
+    src: local('RobotoDraft Thin'), local('RobotoDraft-Thin'), url(../fonts/robotodraft-thin.woff) format('woff');
+}
+@font-face {
+    font-family: 'RobotoDraft';
+    font-style: normal;
+    font-weight: 300;
+    src: local('RobotoDraft Light'), local('RobotoDraft-Light'), url(../fonts/robotodraft-light.woff) format('woff');
+}
+@font-face {
+    font-family: 'RobotoDraft';
+    font-style: normal;
+    font-weight: 400;
+    src: local('RobotoDraft'), local('RobotoDraft-Regular'), url(../fonts/robotodraft-regular.woff) format('woff');
+}
+@font-face {
+    font-family: 'RobotoDraft';
+    font-style: normal;
+    font-weight: 500;
+    src: local('RobotoDraft Medium'), local('RobotoDraft-Medium'), url(../fonts/robotodraft-medium.woff) format('woff');
+}
+@font-face {
+    font-family: 'RobotoDraft';
+    font-style: normal;
+    font-weight: 700;
+    src: local('RobotoDraft Bold'), local('RobotoDraft-Bold'), url(../fonts/robotodraft-bold.woff) format('woff');
+}
+@font-face {
+    font-family: 'RobotoDraft';
+    font-style: normal;
+    font-weight: 900;
+    src: local('RobotoDraft Black'), local('RobotoDraft-Black'), url(../fonts/robotodraft-black.woff) format('woff');
+}
+@font-face {
+    font-family: 'RobotoDraft';
+    font-style: italic;
+    font-weight: 400;
+    src: local('RobotoDraft Italic'), local('RobotoDraft-Italic'), url(../fonts/robotodraft-italic.woff) format('woff');
+}
+@font-face {
+    font-family: 'RobotoDraft';
+    font-style: italic;
+    font-weight: 700;
+    src: local('RobotoDraft Bold Italic'), local('RobotoDraft-BoldItalic'), url(../fonts/robotodraft-bolditalic.woff) format('woff');
+}

@@ -1,0 +1,802 @@
+
+* {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    box-sizing: border-box;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+    font-smoothing: antialiased;
+    -webkit-text-size-adjust: none;
+    -moz-text-size-adjust: none;
+    text-size-adjust: none;
+    -webkit-backface-visibility: hidden;
+    -webkit-user-drag: none;
+}
+
+::selection {
+    background: #009688;
+    color: #fff;
+}
+
+::-moz-selection {
+    background: #009688;
+    color: #fff;
+}
+
+::-webkit-selection {
+    background: #009688;
+    color: #fff;
+}
+
+html, body {
+    background: #f0f3f4;
+    margin: 0;
+    padding: 0;
+    font-family: RobotoDraft, "Helvetica Neue", Helvetica, Arial,'Microsoft Yahei';
+    outline: 0 color : #009688;
+    font-size: 16px;
+    word-wrap: break-word;
+    font-weight: 300;;
+}
+
+ul, li {
+    padding: 0;
+    margin: 0;
+    list-style:none;
+}
+
+.main-body {
+    margin-top: 48px;
+    padding: 16px;
+}
+
+[material] {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    border: none;
+    outline: none;
+
+}
+
+[material][disabled] {
+    background: rgb(234, 234, 234);
+}
+
+[material][raised] {
+    border-radius: 3px;
+}
+
+[material][raised]:not([disabled]) {
+    transition: .3s all ease-in-out;
+    border-color: #dee5e7 #dee5e7 #d8e1e3;
+    box-shadow: 0 1px 1px rgba(90, 90, 90, 0.1);
+}
+
+[material][raised]:not([disabled]):hover,
+[material][raised]:not([disabled]):active {
+    box-shadow: 0 3px 1px rgba(0, 0, 0, 0.15), 0 3px 4px rgba(0, 0, 0, 0.12);
+}
+
+[material][raised][colored] {
+    color: #fff;
+    background: #fff;
+}
+
+.ripple {
+    display: block;
+    position: absolute;
+    background: rgba(0, 0, 0, .1);
+    -webkit-transform: scale(0);
+    -ms-transform: scale(0);
+    -moz-transform: scale(0);
+    -o-transform: scale(0);
+    transform: scale(0);
+    border-radius: 50%;
+}
+
+.ripple.animate {
+    animation: ripple 1s linear;
+    -ms-animation: ripple 1s linear;
+    -moz-animation: ripple 1s linear;
+    -webkit-animation: ripple 1s linear;
+    -o-animation: ripple 1s linear;
+}
+
+.touchable {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+
+.touchstart {
+    animation: touchstart 0.3s ease-in-out;
+    -ms-animation: touchstart 0.3s ease-in-out;
+    -moz-animation: touchstart 0.3s ease-in-out;
+    -webkit-animation: touchstart 0.3s ease-in-out;
+    -o-animation: touchstart 0.3s ease-in-out;
+    background: rgba(0, 0, 0, 0.08);
+    border-radius: 50%;
+}
+
+.touchend {
+    border-radius: 50%;
+    animation: touchend 0.5s ease-in-out;
+    -ms-animation: touchend 0.5s ease-in-out;
+    -moz-animation: touchend 0.5s ease-in-out;
+    -webkit-animation: touchend 0.5s ease-in-out;
+    -o-animation: touchend 0.5s ease-in-out;
+}
+
+.scalein {
+    animation: scalein 0.2s linear;
+    -moz-animation: scalein 0.2s linear;
+    -webkit-animation: scalein 0.2s linear;
+}
+
+.scaleout {
+    animation: scaleout 0.1s linear;
+    -moz-animation: scaleout 0.1s linear;
+    -webkit-animation: scaleout 0.1s linear;
+    opacity: 0;
+}
+
+.ui-flat-button {
+    min-width: 120px;
+    border-radius: 3px;
+    border: none;
+    display: inline-block;
+    padding: 6px 6px;;
+    font-size: 1em;
+    cursor: pointer;
+    background: none;
+}
+
+.ui-flat-button span {
+    display: inline-block;
+    height: 100%;
+    line-height: 24px;
+    margin-left: 4px;
+    vertical-align: top;
+}
+
+.ui-flat-button ui-icon {
+    height: 16px;
+    width: 16px;
+    vertical-align: middle;
+}
+
+.ui-raised-button {
+    min-width: 120px;
+    border-radius: 3px;
+    border: none;
+    display: inline-block;
+    padding: 8px 6px;;
+    font-size: 1em;
+    cursor: pointer;margin-bottom: 10px;
+}
+.ui-button {
+    min-width: 120px;
+    border-radius: 3px;
+    border: none;
+    display: inline-block;
+    padding: 8px 6px;;
+    font-size: 1em;
+    cursor: pointer;margin-bottom: 10px;
+}
+
+.btn-default {
+    background-color: #fff;
+    border-color: #dee5e7 #dee5e7 #d8e1e3;
+    box-shadow: 0 1px 1px rgba(90, 90, 90, 0.1);
+    color: #58666e !important;
+}
+
+.ui-round-button {
+    border-radius: 50%;
+    box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.2);
+    display: inline-block;
+    height: 48px;
+    margin: 4px;
+    width: 48px;
+}
+
+ui-icon-button {
+    display: inline-block;
+}
+
+.ui-round-button button {
+    background: #fff;
+    font-size: 1em;
+    padding: 8px;
+    cursor: pointer;
+    border: none;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    -webkit-clip-path: circle(40px at 24px 24px);
+    clip-path: circle(40px at 24px 24px);
+}
+
+.icon-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;;
+}
+
+.icon-button .button {
+    background: transparent;
+    font-size: 1em;
+    padding: 8px;
+    cursor: pointer;
+    border: none;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    -webkit-clip-path: circle(40px at 24px 24px);
+    clip-path: circle(40px at 24px 24px);
+    display: inline-block;
+}
+
+.icon-button .button svg {
+    width: 24px;
+    height: 24px;
+}
+
+/***图标**/
+ui-icon {
+    display: inline-block;
+}
+
+ui-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+ui-icon svg use {
+    width: 100%;
+    height: 100%;
+}
+
+.action-bar {
+    height: 48px;
+    width: 100%;
+    background: #00bcd4;
+    color: #f1f1f1;
+    fill: #f1f1f1;
+    padding: 4px;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;box-shadow: 0px 3px 3px 0px #ccc;
+}
+
+.action-bar label.title {
+    font-size: 20px;
+    height: 40px;
+    line-height: 40px;
+    vertical-align: top;
+}
+
+.ui-checkbox {
+    padding: 4px;
+    font-size: 14px;
+}
+
+.ui-checkbox .box {
+    display: inline-block;
+    position: relative;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.ui-checkbox .box svg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.ui-checkbox .box svg.unchecked {
+    fill: rgb(90, 90, 90);
+}
+
+.ui-checkbox span {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.ui-checkbox .box-panel {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    overflow: hidden;;
+}
+
+.ui-checkbox .box svg.checked {
+    fill: #27c24c;
+}
+
+.ui-checkbox .box {
+    margin: 25%;
+}
+
+.ui-checkbox .box.on .unchecked {
+    animation: rotateout 0.2s linear;
+    -moz-animation: rotateout 0.2s linear;
+    -webkit-animation: rotateout 0.2s linear;
+    opacity: 0;
+}
+
+.ui-checkbox .box.on .checked {
+    animation: scalein 0.2s linear;
+    -moz-animation: scalein 0.2s linear;
+    -webkit-animation: scalein 0.2s linear;
+    opacity: 1;
+}
+
+.ui-checkbox .box.off .unchecked {
+    animation: rotatein 0.2s linear;
+    -moz-animation: rotatein 0.2s linear;
+    -webkit-animation: rotatein 0.2s linear;
+    opacity: 1;
+}
+
+.ui-checkbox .box.off .checked {
+    animation: scaleout 0.2s linear;
+    -moz-animation: scaleout 0.2s linear;
+    -webkit-animation: scaleout 0.2s linear;
+    opacity: 0;
+}
+
+.ui-radio {
+    padding: 4px;;
+}
+
+.ui-radio .box-panel {
+    height: 48px;
+    width: 48px;
+    display: inline-block;
+    border-radius: 50%;
+    overflow: hidden;
+    vertical-align: top;
+}
+
+.ui-radio .box {
+    width: 20px;
+    height: 20px;
+    position: relative;
+    display: inline-block;;
+    margin-left: 14px;
+    margin-top: 14px;
+    background: #fff;
+    border-radius: 50%;
+}
+
+.ui-radio .box i {
+    display: block;
+    border-radius: 50%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.ui-radio .box .outer {
+    border: 2px solid #5a5a5a;
+}
+
+.ui-radio .box .inner {
+    opacity: 1;
+    background: #fff;
+}
+
+.ui-radio .box.on .inner {
+    animation: scalein 0.2s linear;
+    -moz-animation: scalein 0.2s linear;
+    -webkit-animation: scalein 0.2s linear;
+    opacity: 1;
+    background: rgb(15, 157, 88);
+}
+
+.ui-radio .box.off .inner {
+    animation: scaleout 0.2s linear;
+    -moz-animation: scaleout 0.2s linear;
+    -webkit-animation: scaleout 0.2s linear;
+    opacity: 0;
+}
+
+.ui-radio .radio-label {
+    vertical-align: top;
+    line-height: 50px;
+}
+
+/***/
+.ui-toggle-button {
+    width: 96px;
+    position: relative;
+    height: 48px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.ui-toggle-button .radio-panel {
+    width: 40px;
+    position: relative;
+    height: 48px;
+}
+
+.ui-toggle-button .ui-radio {
+    display: inline-block;
+    position: absolute;
+    top: 0px;
+    z-index: 1;
+    padding: 0;
+}
+
+.ui-toggle-button.on .ui-radio {
+    animation: moveright 0.1s linear;
+    -moz-animation: moveright 0.1s linear;
+    -webkit-animation: moveright 0.1s linear;
+    left: 100%;
+}
+
+.ui-toggle-button.off .ui-radio {
+    left: 0;
+    animation: moveleft 0.1s linear;
+    -moz-animation: moveleft 0.1s linear;
+    -webkit-animation: moveleft 0.1s linear;
+}
+
+.ui-toggle-button .line {
+    position: absolute;
+    height: 1px;
+    background: #5a5a5a;
+    top: 24px;
+    z-index: 0;
+    width: 42px;
+    left: 24px;
+}
+
+.ui-input {
+    display: inline-block;
+    position: relative;
+    width: 200px;
+    height: 34px;margin-bottom: 20px;
+}
+
+.ui-input input {
+    outline: none;
+    background: none;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+    position: absolute;
+    left: 0;;
+    bottom: 0;
+    width: 100%;
+    height: 32px;
+    line-height: 32px;
+    font-size: 14px;
+    background: transparent;
+    border-bottom: 1px solid #5a5a5a;
+}
+
+.ui-input input:focus {
+    border: none;
+    box-shadow: none;
+    border-bottom: 1px solid #5a5a5a;
+}
+
+.ui-input .line {
+    bottom: 0;
+    display: inline-block;
+    height: 2px;
+    position: absolute;
+    width: 100%;
+}
+
+.ui-input.focus .line {
+    background: #4059a9;
+    animation: expand 0.3s linear;
+    -moz-animation: expand 0.3s linear;
+    -webkit-animation: expand 0.3s linear;
+}
+
+.ui-input .placeholder {
+    color: #ccc;
+    font-size: 14px;
+    position: absolute;
+    display: inline-block;
+    top: 8px;
+    left: 0;
+
+}
+
+.ui-input.focus .placeholder {
+    animation: inputfocus 0.1s linear;
+    -moz-animation: inputfocus 0.1s linear;
+    -webkit-animation: inputfocus 0.1s linear;
+    top: -8px;
+    font-size: 11px;
+    color: #4059a9
+}
+
+.ui-input.blur .placeholder {
+    animation: inputblur 0.1s linear;
+    -moz-animation: inputblur 0.1s linear;
+    -webkit-animation: inputblur 0.1s linear;
+    top: 8px;
+    font-size: 14px;
+}
+
+.ui-input.focus.hasVal .line {
+    background: none;
+}
+
+/*******************选项卡**************************/
+.ui-tab-set {
+    height: 400px;
+    left: 0;
+    overflow-x: hidden;
+    position: fixed;
+    top: 48px;
+    width: 100%;
+}
+
+.ui-tab-set .tab-title {
+    position: relative;
+    height: 48px;
+}
+
+.ui-tab-set .tabs {
+    display: inline-flex;
+    width: 100%;
+    height: 50px;
+    background: #00bcd4;
+    position: relative;
+    box-shadow: 0 3px 3px 0 #ccc;
+}
+
+.ui-tab-set .tabs .tab {
+    display: flex;
+    flex: 1;
+    text-align: center;
+    height: 100%;
+}
+
+.ui-tab-set .tabs .tab.active {
+    border-bottom: 2px solid rgb(255, 255, 141);
+}
+
+.ui-tab-set .tabs .tab span {
+    display: inline-block;
+    margin: 0 auto;
+    color: #fff;
+    height: 100%;
+    line-height: 48px;
+    font-weight: bold;
+}
+
+.ui-tab-set .selectionBar {
+    background: none repeat scroll 0 0 rgb(255, 255, 141);
+    bottom: 0;
+    height: 2px;
+    left: 0;
+    position: absolute;
+    width: 33.33%;
+}
+
+.ui-tab-set .tab-content {
+    position: relative;
+    width: 100%;
+    flex: 1;padding: 16px;
+}
+
+.ui-tab-set .content-panel {
+    position: absolute;
+    top: 50px;
+    left: 0;bottom: 0;
+    background: #fff;
+    display: flex;
+    transition: left 0.3s;
+    -moz-transition: left 0.3s; /* Firefox 4 */
+    -webkit-transition: left 0.3s; /* Safari and Chrome */
+}
+
+/*****************************选项卡结束*/
+.ui-dialog {
+    visibility: hidden;
+}
+
+.ui-dialog.active {
+    visibility: visible;
+}
+
+.ui-dialog .overlay {
+    position: fixed;
+    z-index: 11;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    transition: opacity 0.5s ease 0s;
+    -webkit-transition: opacity 0.5s ease 0s;
+    opacity: 0.2;
+}
+
+.ui-dialog.active .overlay {
+    opacity: 0.8;
+}
+
+.ui-dialog .dialog {
+    background: none repeat scroll 0 0 rgb(255, 255, 255);
+    color: rgba(0, 0, 0, 0.87);
+    height: auto;
+    left: 32px;
+    position: fixed;
+    right: 32px;
+    top: 100px;
+    z-index: 12;
+    padding: 14px;
+    border-radius: 3px;
+    box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24);
+    padding-bottom: 4px;
+
+    transition: all 0.5s ease 0s;
+    -webkit-transition: all 0.5s ease 0s;
+
+    transform: scale(0);
+    -webkit-tratransform:scale(0);
+    opacity: 0;
+}
+
+.ui-dialog.active .dialog {
+    transform: scale(1);
+    -moz-transform: scale(1);
+    opacity: 1;
+}
+
+.ui-dialog .dialog .content {
+    box-sizing: border-box;
+    overflow: auto;
+}
+
+.ui-dialog .dialog .title {
+    font-size: 18px;;
+    margin-bottom: 0;
+}
+
+.ui-dialog .dialog .actions {
+    text-align: right;
+    color: #009688;
+}
+
+.ui-dialog .dialog .actions .ui-flat-button {
+    min-width: 80px;
+}
+
+/*************导航***********************/
+.ui-navigation {
+    bottom: 0;
+    position: fixed;
+    top: 48px;
+
+}
+
+.ui-navigation .overlay {
+    position: absolute;
+    left: 0;
+    top: 0px;
+    bottom: 0;
+    right: 0;;
+    background: #000;
+    opacity: 0;
+    transition: opacity 0.3s;
+    -moz-transition: opacity 0.3s;
+}
+
+.ui-navigation .content {
+    background: #fff;
+    width: 240px;
+    height: 100%;
+    opacity: 1;
+    position: absolute;
+    left: -240px;
+    top: 0;
+    bottom: 0;
+    transition: left 0.3s;
+    -moz-transition: left 0.3s;
+}
+
+.ui-navigation.active {;
+    left: 0;
+    right: 0;
+}
+
+.ui-navigation.active .overlay {;
+    opacity: 0.6;
+}
+
+.ui-navigation.active .content {
+    left: 0;box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.8);
+}
+/*********************listview********************/
+.ui-list{
+    overflow-y: scroll;height: 100%;
+    transition:all 0.5s ease 0s;
+    -moz-transition: all 0.5s ease 0s;
+}
+.ui-list li> a{
+    height: 48px;padding:12px;border-bottom: 1px solid #eee;;list-style: none;padding-left: 0px;
+    transition:all 0.5s ease 0.3s;
+    -moz-transition: all 0.5s ease 0.3s;
+    text-decoration: none;color: #000;display: block;height: 100%;
+    width: 100%;text-align: left;position: relative;
+}
+.active .ui-list li >a{
+    padding-left: 20px;
+}
+.ui-list li .sub-list{
+    visibility: hidden;
+    height: 0;
+    overflow: hidden;
+}
+.ui-list li .sub-list.active{
+  visibility: visible;height: 100%;
+}
+.active .ui-list li .sub-list li a{
+    padding-left: 40px;
+}
+
+/*********************************************************************/
+
+.ui-scroll-header {
+    position: relative;;
+    margin: 0;
+    transform:translate3d(0,0,0);
+    overflow: hidden;
+}
+
+.ui-scroll-header .wrapper {
+    height: 500px;
+    overflow-y: scroll;
+}
+
+.ui-scroll-header .action-bar {
+    position: absolute;
+    top: 0;
+    background: transparent;
+    box-shadow: none;
+    z-index: 2;
+
+}
+.ui-scroll-header .content {
+    padding: 8px;padding-top: 156px;
+}
+
+.ui-scroll-header .header {
+;position: absolute;left:0;top:0;right: 0;
+}
+
+.ui-scroll-header .header .bg {
+    height: 148px;
+
+    background-size: cover;
+    background-position: center center;
+    opacity: 0.99;
+}

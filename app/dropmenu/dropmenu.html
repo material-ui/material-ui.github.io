@@ -1,0 +1,59 @@
+<style>
+    .ui-dropdown-menu{
+        width: 170px;height: 35px;
+        border-bottom: 1px solid #757575;position: relative;padding-top: 4px;padding-bottom: 4px;margin-bottom: 10px;
+    }
+    .ui-dropdown-menu span{
+        width: 100%;height: 100%;display: inline-block;line-height: 26px;
+
+    }
+    .ui-dropdown{
+        ;min-width: 100%;
+        transition:all 0.3s ease 0s;
+        -moz-transition: all 0.3s ease 0s;
+        position: absolute;top:0px;left: 0px;z-index: 1;
+        background: #fff;box-shadow: 0px 2px 2px 2px rgba(0,0,0,0.2);padding: 12px;
+        border-radius: 2px;
+        visibility: hidden;;opacity: 0;
+        overflow: hidden;
+    }
+    .ui-dropdown li{
+        height: 48px;padding:10px;line-height: 28px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    .active .ui-dropdown{
+    ;visibility: visible;
+        opacity: 1;
+    }
+    .ui-dropdown-menu .arrow{
+        ;position: absolute;right: 0px;bottom: 12px;
+        width: 0;     height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 5px solid #757575;
+        transition:all 0.5s ease 0s;
+        -moz-transition: all 0.5s ease 0s;
+        z-index: 0;
+        transform:rotate(0deg) ;
+    }
+    .ui-dropdown-menu.active .arrow{
+        transform:rotate(180deg) ;
+    }
+
+    /**************************************/
+    .ui-menu-button{
+        position: relative;display: inline-block;
+    }
+</style>
+<div class="panel" ng-controller="DropdownMenuCtrl">
+    <div class="panel-heading">Dropdown Menu</div>
+    <div class="panel-body">
+        <ui-dropdown-menu ng-model="category"  ui-options="m.name for m in list" ></ui-dropdown-menu>
+        <div class="ui-menu-button">
+            <ui-icon-button icon="nav-overflow" class="pull-right"></ui-icon-button>
+            <ui-dropdown  ng-model="category"  ui-options="m.name for m in list"></ui-dropdown>
+        </div>
+    </div>
+</div>
