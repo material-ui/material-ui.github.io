@@ -1,3 +1,4 @@
+
 /*
  Copyright 2014 Chen xiaowei (github:https://github.com/blackderby)
 
@@ -902,7 +903,7 @@ directives.directive("uiDropdown", [ "$swipe", "$parse", "$document", "$compile"
     var UI_OPTIONS_REG = /^([\S]+)\sfor\s+([\S]+)\sin\s([\S]+)$/;
     return {
         restrict: 'E',
-        template:"<ul class='ui-dropdown'></ul>",replace:true,
+        template: "<ul class='ui-dropdown'></ul>", replace: true,
         link: function ($scope, $element, $attrs) {
             var exp = $attrs["uiOptions"];
             var match = exp.match(UI_OPTIONS_REG);
@@ -920,7 +921,8 @@ directives.directive("uiDropdown", [ "$swipe", "$parse", "$document", "$compile"
                 li.appendTo($element);
             });
             $compile($element.contents())($scope);
-        }]  vcbfhr5tgu6666666666666666666666666666
+        }
+    }
 
 }]);
 /**
