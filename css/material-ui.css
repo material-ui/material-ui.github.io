@@ -447,14 +447,14 @@ ui-icon svg use {
     padding: 0;
 }
 
-.ui-toggle-button.on .ui-radio {
+.ui-toggle-button.active .ui-radio {
     animation: moveright 0.1s linear;
     -moz-animation: moveright 0.1s linear;
     -webkit-animation: moveright 0.1s linear;
     left: 100%;
 }
 
-.ui-toggle-button.off .ui-radio {
+.ui-toggle-button .ui-radio {
     left: 0;
     animation: moveleft 0.1s linear;
     -moz-animation: moveleft 0.1s linear;
@@ -563,7 +563,7 @@ ui-icon svg use {
 }
 
 .ui-tab-set .tabs {
-    display: inline-flex;
+    display: flex;
     width: 100%;
     height: 50px;
     background: #00bcd4;
@@ -594,10 +594,13 @@ ui-icon svg use {
 .ui-tab-set .selectionBar {
     background: none repeat scroll 0 0 rgb(255, 255, 141);
     bottom: 0;
-    height: 2px;
+    height: 4px;
     left: 0;
     position: absolute;
     width: 33.33%;
+    top:46px;
+    transition: all 0.3s;
+    -webkit-transition: all 0.3s; /* Safari and Chrome */
 }
 
 .ui-tab-set .tab-content {
@@ -612,9 +615,8 @@ ui-icon svg use {
     left: 0;bottom: 0;
     background: #fff;
     display: flex;
-    transition: left 0.3s;
-    -moz-transition: left 0.3s; /* Firefox 4 */
-    -webkit-transition: left 0.3s; /* Safari and Chrome */
+    transition: all 0.3s;
+    -webkit-transition: all 0.3s; /* Safari and Chrome */
 }
 
 /*****************************选项卡结束*/
@@ -735,33 +737,7 @@ ui-icon svg use {
 .ui-navigation.active .content {
     left: 0;box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.8);
 }
-/*********************listview********************/
-.ui-list{
-    overflow-y: scroll;height: 100%;
-    transition:all 0.5s ease 0s;
-    -moz-transition: all 0.5s ease 0s;
-}
-.ui-list li> a{
-    height: 48px;padding:12px;border-bottom: 1px solid #eee;;list-style: none;padding-left: 0px;
-    transition:all 0.5s ease 0.3s;
-    -moz-transition: all 0.5s ease 0.3s;
-    text-decoration: none;color: #000;display: block;height: 100%;
-    width: 100%;text-align: left;position: relative;
-}
-.active .ui-list li >a{
-    padding-left: 20px;
-}
-.ui-list li .sub-list{
-    visibility: hidden;
-    height: 0;
-    overflow: hidden;
-}
-.ui-list li .sub-list.active{
-  visibility: visible;height: 100%;
-}
-.active .ui-list li .sub-list li a{
-    padding-left: 40px;
-}
+
 
 /*********************************************************************/
 

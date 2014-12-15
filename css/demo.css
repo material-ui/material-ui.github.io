@@ -70,3 +70,30 @@
     color: #999;
     border-bottom: 1px solid #eee;
 }
+
+.ui-list{
+    overflow-y: scroll;height: 100%;
+    transition:all 0.5s ease 0s;
+    -moz-transition: all 0.5s ease 0s;
+}
+.ui-list li> a{
+    height: 48px;padding:12px;border-bottom: 1px solid #eee;;list-style: none;padding-left: 0px;
+    transition:all 0.5s ease 0.3s;
+    -moz-transition: all 0.5s ease 0.3s;
+    text-decoration: none;color: #000;display: block;height: 100%;
+    width: 100%;text-align: left;position: relative;
+}
+.active .ui-list li >a{
+    padding-left: 20px;
+}
+.ui-list li .sub-list{
+    visibility: hidden;
+    height: 0;
+    overflow: hidden;
+}
+.ui-list li .sub-list.active{
+    visibility: visible;height: 100%;
+}
+.active .ui-list li .sub-list li a{
+    padding-left: 40px;
+}

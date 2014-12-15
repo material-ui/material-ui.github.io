@@ -1,3 +1,4 @@
+
 <style>
     .ui-dropdown-menu{
         width: 170px;height: 35px;
@@ -21,7 +22,7 @@
         height: 48px;padding:10px;line-height: 28px;
         overflow: hidden;
         white-space: nowrap;
-        text-overflow: ellipsis;
+        text-overflow: ellipsis;text-align: left;
     }
     .active .ui-dropdown{
     ;visibility: visible;
@@ -50,10 +51,17 @@
 <div class="panel" ng-controller="DropdownMenuCtrl">
     <div class="panel-heading">Dropdown Menu</div>
     <div class="panel-body">
+        <ui-icon name="ic-3d-rotation" size="16px,16px" file="action" color="#000"></ui-icon>
+        <ui-icon name="ic-account-box" size="32px,32px" file="action" color="red"></ui-icon>
+        <div>
+         您选中了: {{category}}
+            <hr/>
+        </div>
         <ui-dropdown-menu ng-model="category"  ui-options="m.name for m in list" ></ui-dropdown-menu>
-        <div class="ui-menu-button">
-            <ui-icon-button icon="nav-overflow" class="pull-right"></ui-icon-button>
-            <ui-dropdown  ng-model="category"  ui-options="m.name for m in list"></ui-dropdown>
+
+        <div class="ui-menu-button"  ui-toggle-class="active" >
+            <ui-icon-button icon="ic-more-vert" file="navigation"></ui-icon-button>
+            <ui-dropdown ng-model="category"   ui-options="m.name for m in list"></ui-dropdown>
         </div>
     </div>
 </div>

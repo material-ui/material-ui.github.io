@@ -2,6 +2,7 @@
  * Created by chenshiqi on 2014/12/11.
  */
 var controllers = angular.module('app.controller', []);
+
 controllers.controller("AppCtrl",function($scope){
     $scope.showNavigation=false;
 });
@@ -18,9 +19,11 @@ controllers.controller("DialogCtrl",function($scope){
         show:false,
         buttons:[
             {text:"Confirm",icon:"ic-check",click:function(){
+                console.info("Click:Confirm");
                 $scope.dialog.show=false;
             }},
             {text:"Cancel",icon:"ic-close",click:function(){
+                console.info("Click:Cancel");
                 $scope.dialog.show=false;
             }}
         ]
@@ -41,4 +44,9 @@ controllers.controller("DropdownMenuCtrl",function($scope){
         {id:6,name:"Nodejs"}
     ];
     $scope.users=[];
+
 });
+controllers.controller("CheckboxCtrl",function($scope){
+    $scope.arr=[false,false,false];
+});
+

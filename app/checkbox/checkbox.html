@@ -1,8 +1,8 @@
-<div class="panel">
+<div class="panel" ng-controller="CheckboxCtrl">
     <div class="panel-heading">Checkbox</div>
     <div class="panel-body">
-        <ui-checkbox>Notifications</ui-checkbox>
-        <ui-checkbox>AutoUpdates</ui-checkbox>
-        <ui-checkbox>Clear search history</ui-checkbox>
+        <ui-checkbox  ng-model="arr[0]">Notifications</ui-checkbox>
+        <ui-checkbox  ng-model="arr[1]">AutoUpdates</ui-checkbox>
+        <ui-checkbox  ng-model="arr[2]">Clear search history</ui-checkbox>
     </div>
 </div>

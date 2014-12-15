@@ -1,4 +1,3 @@
-
 /*
  Copyright 2014 Chen xiaowei (github:https://github.com/blackderby)
 
@@ -62,6 +61,35 @@ directives.factory("$clip", function () {
         }
     };
 });
+directives.directive('touchStart', ["$parse", "$swipe", function ($parse, $swipe) {
+    return {
+        restrict: "A",
+        link: function ($scope, $element, $attrs) {
+            var model = $parse($attrs["touchStart"]);
+            $swipe.bind($element, {
+                start: function () {
+                    model($scope);
+                    $scope.$apply();
+                }
+            })
+        }
+    }
+}]);
+directives.directive('touchEnd', ["$parse", "$swipe", function ($parse, $swipe) {
+    return {
+        restrict: "A",
+        link: function ($scope, $element, $attrs) {
+            var model = $parse($attrs["touchEnd"]);
+            $swipe.bind($element, {
+                end: function () {
+                    model($scope);
+                    $scope.$apply();
+                }
+            })
+        }
+    }
+}]);
+
 /**
  * 名称:material-ui的触摸效果指令
  * 功能:实现触摸效果
@@ -72,13 +100,14 @@ directives.factory("$clip", function () {
  * 作者:陈晓伟
  */
 directives.directive('touchable', ["$swipe", function ($swipe) {
-    return{
+    return {
         restrict: "C",
         link: function ($scope, $element, $attrs) {
-            var $parent = $element.parent();
 
+            var $parent = $element.parent();
             var parentWidth = $parent.width()
             var parentHeight = $parent.height();
+            //TODO
             var size = Math.max(parentWidth, parentHeight);
             $parent.css("position", "relative");
             $element.css("width", size + 'px');
@@ -112,7 +141,7 @@ directives.directive('touchable', ["$swipe", function ($swipe) {
  * 作者:陈晓伟
  */
 directives.directive('ripple', ["$compile", "$swipe", function ($compile, $swipe) {
-    return{
+    return {
         restrict: "C",
         link: function ($scope, $element, $attrs) {
             var $parent = $element.parent();
@@ -164,11 +193,13 @@ directives.directive('ripple', ["$compile", "$swipe", function ($compile, $swipe
  * 作者:陈晓伟
  */
 directives.directive('material', function () {
-    return{restrict: 'A', compile: function ($element, attrs) {
-        $element.prepend("<i class='ripple'></i>");
-        return function (scope, el, attrs) {
+    return {
+        restrict: 'A', compile: function ($element, attrs) {
+            $element.prepend("<i class='ripple'></i>");
+            return function (scope, el, attrs) {
+            }
         }
-    }};
+    };
 });
 /**
  * 名称:jquery toggle class 的指令
@@ -180,39 +211,26 @@ directives.directive('material', function () {
  * 作者:陈晓伟
  */
 directives.directive('uiToggleClass', ['$swipe', function ($swipe) {
-    return {restrict: 'AC', link: function (scope, element, attr) {
-        var ts = 0;
-        $swipe.bind(element, {
-            end: function (pos, event) {
-
-                if (event.timeStamp - ts < 500) {
-                    return;
-                }
-                ts = event.timeStamp;
-                var classes = attr.uiToggleClass.split(','),
-                    targets = (attr.target && attr.target.split(',')) || Array(el),
-                    key = 0;
-                angular.forEach(classes, function (_class) {
-                    var target = targets[(targets.length && key)];
-                    (_class.indexOf('*') !== -1) && magic(_class, target);
-                    $(target).toggleClass(_class);
-                    key++;
-                });
-                element.toggleClass('active');
-                function magic(_class, target) {
-                    var patt = new RegExp('\\s' + _class.
-                        replace(/\*/g, '[A-Za-z0-9-_]+').
-                        split(' ').
-                        join('\\s|\\s') + '\\s', 'g');
-                    var cn = ' ' + $(target)[0].className + ' ';
-                    while (patt.test(cn)) {
-                        cn = cn.replace(patt, ' ');
-                    }
-                    $(target)[0].className = $.trim(cn);
-                }
+    return {
+        restrict: 'A', link: function (scope, element, attr) {
+            var target = attr["target"];
+            if (target) {
+                target = angular.element(target)
+            } else {
+                target = element;
             }
-        });
-    }};
+            var toggleClass = attr["uiToggleClass"];
+            $swipe.bind(element, {
+                end: function () {
+                    if (target.hasClass(toggleClass)) {
+                        target.removeClass(toggleClass);
+                    } else {
+                        target.addClass(toggleClass);
+                    }
+                }
+            });
+        }
+    };
 }]);
 
 /**
@@ -225,26 +243,25 @@ directives.directive('uiToggleClass', ['$swipe', function ($swipe) {
  * 作者:陈晓伟
  */
 directives.directive('uiIcon', function () {
-    return{
-        restrict: 'E',
-        compile: function ($element, $attrs) {
-            var style = "";
-            var file = "svg-icons";
+    return {
+        restrict: 'E',replace:true,
+        scope: true,
+        template: '<svg ng-style="{\'width\':width,\'height\':height,\'fill\':color}"  width="48" height="48" viewBox="0 0 48 48"><use xlink:href="{{svg_link}}"></use></svg>',
+        link: function (scope, $element, $attrs) {
+
+            scope.color = $attrs["color"];
             if ($attrs["size"]) {
                 var size = $attrs["size"].split(",");
-                style += ";width:" + size[0];
-                style += ";height:" + size[1];
+                if (size.length != 2) {
+                    console.error("[ui-icon]无效的size属性,size属性格式必需为:size='width,height'");
+                    return;
+                }
+                scope.width = size[0];
+                scope.height = size[1];
             }
-            if ($attrs["color"]) {
-                style += ";fill:" + $attrs["color"];
-            }
-            if ($attrs["file"]) {
-                file = $attrs["file"];
-            }
-            $element.html("<svg style='" + style + "'  width='48' height='48' viewBox='0 0 48 48'><use xlink:href='svg/" + file + ".svg#" + $attrs["name"] + "'></use></svg>");
+            scope.svg_link = "svg/" + $attrs["file"] + ".svg#" + $attrs["name"];
         }
-    };
-
+    }
 });
 /**
  * 名称:普通按钮 指令
@@ -268,7 +285,6 @@ directives.directive('uiButton', ["$clip", function ($clip) {
             var width = parseInt($element.css("width"));
             var height = parseInt($element.css("height"));
             var rectangle = $clip.rectangle(width, height, 2);
-            console.info(rectangle);
             $element.css("-webkit-clip-path", rectangle)
                 .css("clip-path", rectangle);
         }
@@ -314,12 +330,8 @@ directives.directive('uiRaisedButton', ["$clip", function ($clip) {
         restrict: "E",
         template: '<button material raised class="ui-raised-button"><span ng-transclude></span></button>',
         replace: true,
-        transclude: true,
-        link: function ($scope, $element, $attrs) {
-            if ($attrs["class"]) {
-                $element.addClass($attrs["class"]);
-            }
-        }
+        transclude: true
+
     }
 }]);
 
@@ -362,21 +374,13 @@ directives.directive('uiRoundButton', function () {
  * 作者:陈晓伟
  */
 directives.directive('uiIconButton', function () {
-    return{restrict: 'E', compile: function ($element, $attrs) {
-        var icon = "<svg ><use xlink:href='css/svg-icons.svg#" + $attrs["icon"] + "'></use></svg>";
-        $element.html('<div class="icon-button"><i class="touchable"></i><a  class="button">' + icon + '</a></div>');
-        return function ($scope, $element, $attrs) {
-            var button = $element.find(".button").first();
-            var width = parseInt($attrs.radius);
-            var centerPos = "circle(" + $attrs.radius + " at " + width / 2 + "px " + width / 2 + "px)";
-            button.css("width", $attrs.radius)
-                .css("height", $attrs.radius)
-                .css("-webkit-clip-path", centerPos)
-                .css("clip-path", centerPos);
-            $element.css("width", $attrs.radius)
-                .css("height", $attrs.radius);
+    return {
+        restrict: 'E',
+        template:'<div class="icon-button"><i class="touchable"></i><a  class="button"><svg ><use xlink:href="{{svg_icon}}"></use></svg></a></div>',
+        compile: function ($element, $attrs) {
+            $element.find("use").attr("xlink:href","svg/" + $attrs["file"] + ".svg#" + $attrs["icon"]);
         }
-    }};
+    };
 
 });
 /**
@@ -389,57 +393,16 @@ directives.directive('uiIconButton', function () {
  */
 directives.directive("uiCheckbox", ["$parse", "$swipe", function ($parse, $swipe) {
     var html = "";
-    html += '<div class="ui-checkbox"><span class="box-panel"> <i class="touchable"></i><span class="box">';
-    html += '<svg class="unchecked" width=\'48\' height=\'48\' viewBox=\'0 0 48 48\'><use xlink:href=\'css/svg-icons.svg#unchecked\'></use></svg>';
-    html += '<svg class="checked" width=\'48\' height=\'48\' viewBox=\'0 0 48 48\'><use xlink:href=\'css/svg-icons.svg#checked\'></use></svg></span></span><span class="checkbox-label"  ng-transclude></span></div>';
-    return{
+    html += '<div class="ui-checkbox" touch-end="model=!model"><span class="box-panel"> <i class="touchable"></i><span class="box" ng-class="{true:\'on\',false:\'off\',undefined:\'off\'}[model]">';
+    html += '<ui-icon class="unchecked" name="ic-check-box-outline-blank" file="toggle"></ui-icon>';
+    html += '<ui-icon class="checked" name="ic-check" file="navigation"></ui-icon></span></span><span class="checkbox-label"  ng-transclude></span></div>';
+    return {
         restrict: "E",
         template: html,
         replace: true,
         transclude: true,
-
-        link: function ($scope, $element, $attrs) {
-            var box = $element.find(".box").first();
-
-            var hasBindModel = $attrs["ngModel"];
-            var hasChecked = false;
-            var model = null;
-            /**
-             * 如果绑定了变量(即使用了ng-model指令),则读取变量值,设置给checkbox为默认值
-             */
-            if (hasBindModel) {
-                model = $parse($attrs["ngModel"]);
-                hasChecked = model($scope);
-            }
-            toogleCheckbox(hasChecked);
-            var ts = 0;
-            $swipe.bind($element, {
-                start: function (pos, event) {
-                    if (event.timeStamp - ts < 500) {
-                        return;
-                    }
-                    ts = event.timeStamp;
-                    hasChecked = !hasChecked;
-                    toogleCheckbox(hasChecked);
-                    /**如果绑定了变量,则更新变量值**/
-                    if (hasBindModel) {
-                        model.assign($scope, hasChecked);
-                    }
-                    $scope.$apply();
-                }
-            });
-
-            /**
-             * 根据hasChecked值,设置checkbox是否被选中
-             * @param hasChecked
-             */
-            function toogleCheckbox(hasChecked) {
-                if (hasChecked) {
-                    box.removeClass("off").addClass("on");
-                } else {
-                    box.removeClass("on").addClass("off");
-                }
-            }
+        scope: {
+            model: "=ngModel"
         }
     }
 }]);
@@ -454,127 +417,37 @@ directives.directive("uiCheckbox", ["$parse", "$swipe", function ($parse, $swipe
  */
 directives.directive("uiRadio", ["$parse", "$swipe", function ($parse, $swipe) {
 
-    return{
+    return {
         restrict: "E",
-        template: '<div class="ui-radio"><span class="box-panel"><i class="touchable"></i><span class="box"><i class="outer"></i><i class="inner"></i></span></span><span class="radio-label" ng-transclude></span></div>',
+        template: '<div class="ui-radio" touch-end="model=value"><span class="box-panel"><i class="touchable"></i>' +
+        '<span class="box" ng-class="{true:\'on\',false:\'off\'}[model==value]"><i class="outer"></i><i class="inner" ng-style="{background:color}"></i></span></span><span class="radio-label" ng-transclude></span></div>',
         replace: true,
-        transclude: true,
-        link: function ($scope, $element, $attrs) {
-            var box = $element.find(".box").first();
-            var hasBindValue = $attrs["value"];
-            var hasBindModel = $attrs["ngModel"];
-            var color = $attrs["color"];
-            var hasChecked = false;
-            var model = null;
-            var value = null;
-            if (color) {
-                $element.find(".inner").css("background", color);
-            }
-            /**
-             * 如果绑定了变量(即使用了ng-model指令),则读取变量值,设radio为默认值
-             */
-            if (hasBindModel) {
-                model = $parse($attrs["ngModel"]);
-                $scope.$watch(model, function () {
-                    if (model($scope) == value($scope)) {
-                        box.removeClass("off").addClass("on");
-                    } else {
-                        box.removeClass("on").addClass("off");
-                    }
-                });
-                /**
-                 * 如果绑定了值,则比较value和model是否相等
-                 */
-                if (hasBindValue) {
-                    value = $parse($attrs["value"]);
-                    hasChecked = model($scope) == value($scope);
-                }
-            }
-            if (hasChecked) {
-                box.removeClass("off").addClass("on");
-            }
-            $swipe.bind($element, {
-                start: function () {
-                    hasChecked = true;
-                    box.removeClass("off").addClass("on");
-                    /**如果绑定了变量,则更新变量值**/
-                    if (hasBindModel) {
-                        model.assign($scope, value($scope));
-                    }
-                    $scope.$apply();
-                }
-            });
+        scope: {
+            model: "=ngModel",
+            color: "=color",
+            value: "=value"
+        },
+        transclude: true
 
-
-        }
     }
 }]);
 /**
  *
  */
 directives.directive("uiToggleButton", ["$parse", "$swipe", function ($parse, $swipe) {
-    var html = '<div class="ui-toggle-button off" ><i class="line"></i><div class="radio-panel"><div class="ui-radio" > <span class="box-panel"><span class="box-panel"> <i class="touchable"></i><span class="box off" > <i class="outer"></i><i class="inner"></i> </span> </span></div> </div> </div>'
-    return{
+    var html = '<div class="ui-toggle-button" ng-class="{active:hasChecked}"  touch-end="hasChecked=!hasChecked"><i class="line"></i>' +
+        '<div class="radio-panel">' +
+        '<div class="ui-radio" > ' +
+        '<span class="box-panel"> <i class="touchable"></i>' +
+        '<span class="box" ng-class="{true:\'on\',false:\'off\'}[hasChecked]"> <i class="outer"></i><i class="inner" ng-style="{background:color}"></i> </span> ' +
+        '</span></div> </div> </div>'
+    return {
         restrict: "E",
         template: html,
         replace: true,
-        link: function ($scope, $element, $attrs) {
-            var box = $element.find(".box").first();
-            var hasBindModel = $attrs["ngModel"];
-            var color = $attrs["color"];
-            var hasChecked = false;
-            var model = null;
-            var value = null;
-            if (color) {
-                $element.find(".inner").css("background", color);
-            }
-            /**
-             * 如果绑定了变量(即使用了ng-model指令),则读取变量值,设radio为默认值
-             */
-            if (hasBindModel) {
-                model = $parse($attrs["ngModel"]);
-                $scope.$watch(model, function () {
-                    if (model($scope)) {
-                        $element.removeClass("off").addClass("on");
-                    } else {
-                        $element.removeClass("on").addClass("off");
-                    }
-                });
-
-            }
-            if (hasChecked) {
-                $element.removeClass("off").addClass("on");
-                box.removeClass("off").addClass("on");
-            } else {
-                $element.removeClass("on").addClass("off");
-                box.removeClass("on").addClass("off");
-            }
-            var timeStamp = 0;
-            /**
-             * 绑定触摸事件
-             */
-            $swipe.bind($element, {
-                end: function (pos, event) {
-                    if (event.timeStamp - timeStamp < 500) {
-                        return;
-                    }
-                    timeStamp = event.timeStamp;
-                    hasChecked = !hasChecked;
-                    if (hasChecked) {
-                        $element.removeClass("off").addClass("on");
-                        box.removeClass("off").addClass("on");
-                    } else {
-                        $element.removeClass("on").addClass("off");
-                        box.removeClass("on").addClass("off");
-                    }
-                    /**如果绑定了变量,则更新变量值**/
-                    if (hasBindModel) {
-                        model.assign($scope, hasChecked);
-                    }
-                    $scope.$apply();
-                }
-            });
-
+        scope: {
+            hasChecked: "=ngModel",
+            color: "=color"
         }
     }
 }]);
@@ -582,309 +455,209 @@ directives.directive("uiToggleButton", ["$parse", "$swipe", function ($parse, $s
  * 输入框指令
  */
 directives.directive("uiInput", function ($parse) {
-    return{
+    return {
         restrict: "E",
-        template: '<div class="ui-input"><span class="placeholder"></span><input type="text"/> <i class="line"></i></div>',
+        template: '<div class="ui-input" ng-class="{hasVal:model!=null,focus:model!=null}"><span class="placeholder">{{placeholder}}</span><input type="{{type}}" ng-model="model" ng-blur="blur()" ng-focus="focus()"/> <i class="line"></i></div>',
         replace: true,
-        link: function ($scope, $element, $attrs) {
-            var input = $element.find("input");
-            var hasBindModel = $attrs["ngModel"];
-            var model = null;
-            if (hasBindModel) {
-                model = $parse($attrs["ngModel"]);
-                input.val(model($scope));
-
-                $scope.$watch(model, function () {
-                    input.val(model($scope));
-                    if (input.val().length > 0) {
-                        $element.addClass("focus").addClass("hasVal").removeClass("blur");
-                    }
-                });
-
-            }
-            if ($attrs["placeholder"]) {
-                $element.find(".placeholder").text($attrs["placeholder"]);
-            }
-            if ($attrs["type"]) {
-                input.attr("type", $attrs["type"]);
-            }
-            input.on("focus", function () {
-                if (input.val().length > 0) {
+        scope: {
+            model: "=ngModel",
+            placeholder: "@placeholder",
+            type: "@type"
+        },
+        link: function (scope, $element, $attrs) {
+            scope.focus = function () {
+                if (scope.model && scope.model.length > 0) {
                     $element.removeClass("hasVal");
                 }
                 $element.addClass("focus").removeClass("blur");
-            });
-            input.on("blur", function () {
-                if (input.val() == "") {
+            };
+            scope.blur = function () {
+                if (scope.model == "" || !scope.model) {
                     $element.addClass("blur").removeClass("focus");
                 } else {
                     $element.addClass("hasVal");
                 }
-                if (hasBindModel) {
-                    model.assign($scope, input.val());
-                    $scope.$apply();
-                }
-            });
+            };
         }
     }
 });
 /**
  * 选项卡指令
  */
-directives.directive("uiTabSet", ["$compile", "$swipe" , function ($compile, $swipe) {
-    return{
+directives.directive("uiTabSet", ["$swipe", function ($swipe) {
+    return {
         restrict: "E",
-        template: '<div class="ui-tab-set" ><ul class="tabs" ng-transclude></ul><div class="content-panel" ></div></div>',
+        template: '<div class="ui-tab-set" ><ul class="tabs" ><li class="tab" material ng-repeat="th in tabHeaders" touch-end="selectTab($index)"><span>{{th}}</span></li></ul>' +
+        '<span class="selectionBar" ng-style="{transform:selection_bar_left,\'-webkit-transform\':selection_bar_left}"></span>' +
+        '<div class="content-panel" ng-transclude ng-style="{width:(winWidth*tabHeaders.length)+\'px\',transform:panel_left,\'-webkit-transform\':panel_left}"></div></div>',
         transclude: true,
         replace: true,
-        link: function ($scope, $element, $attrs) {
-            var winWidth = $element.width();
-            var ul = $element.find("ul").first();
-            var tabs = $element.find("ui-tab");
-            var panel = $element.find(".content-panel");
-            for (var i = 0; i < tabs.size(); i++) {
-                var tab = tabs.eq(i);
-                var heading = tab.attr("heading");
-                var contents = tab.contents();
-                var li = $('<li class="tab" material ><span>' + heading + '</span></li>');
-                var tabContent = $("<div class='tab-content'></div>");
-                if (i == 0) {
-                    li.addClass("active");
-                    tabContent.addClass("active");
-                }
-                tabContent.css("width", winWidth + "px");
-                li.appendTo(ul);
-                contents.appendTo(tabContent);
-                tabContent.appendTo(panel);
-                tab.remove();
-            }
-            var tabTitles = ul.find("li");
-            tabTitles.each(function () {
-                var that = this;
-                $swipe.bind($(that), {
-                    start: function () {
-                        var index = tabTitles.index(that);
-                        panel.css("left", (winWidth * index * -1) + "px");
-                        ul.find(".active").removeClass("active");
-                        ul.find("li").eq(index).addClass("active");
-                    }
-                });
-            });
-            $compile(ul.contents())($scope);
-            var count = tabs.size();
+        $scope: true,
+        require: "uiTabSet",
+        controller: function ($scope) {
+            $scope.tabHeaders = [];
+            this.addHeader = function (name) {
+                $scope.tabHeaders.push(name);
+            };
+            this.getTabCount = function () {
+                return $scope.tabHeaders.length;
+            };
+        },
+        link: function (scope, element, attrs, ctrl) {
+            scope.winWidth = element.width();
+            console.info(scope.winWidth);
+            scope.panel_left = "0";
+            scope.selection_bar_left = "0";
+            scope.selectTab = function (index) {
+                scope.panel_left = "translateX(" + (scope.winWidth * index * -1) + "px)";
+                scope.selection_bar_left = "translateX(" + scope.winWidth / 3 * index + "px)";
+            };
+            var panel = element.find(".content-panel");
+            var count = ctrl.getTabCount();
             var index = 0;
-            var old = {x: 0, y: 0};
-            var minLeft = (count - 1) * winWidth * -1;
+            var start_pos = {x: 0, y: 0};
+            var minLeft = (count - 1) * scope.winWidth * -1;
             var left = 0;
             $swipe.bind(panel, {
-                start: function (cur) {
-                    old = cur;
+                start: function (pos, event) {
+                    start_pos = pos;
                     left = panel.offset().left;
+                    //在拖动开始的时候,要把transition属性去掉,不然会影响拖动效果
+                    panel.css("transition", "none").css("-webkit-transition", "none");
                 },
                 end: function (cur) {
-                    var m = cur.x - old.x;
+                    var m = cur.x - start_pos.x;
                     if (m < -50) {
                         index = index < count - 1 ? index + 1 : index;
                     }
                     if (m > 50) {
                         index = index > 0 ? index - 1 : index;
                     }
-                    panel.css("left", (winWidth * index * -1) + "px");
-                    ul.find(".active").removeClass("active");
-                    ul.find("li").eq(index).addClass("active");
+                    //拖动结束后,再添加transition属性,
+                    panel.css("transition", "all 0.3s").css("-webkit-transition", "all 0.3s");
+                    scope.selectTab(index);
+                    scope.$apply();
                 },
                 move: function (cur) {
-                    var m = cur.x - old.x;
-                    var newLeft = left + m;
+                    var newLeft = left + (cur.x - start_pos.x);
                     if (newLeft > 0) {
                         newLeft = 0;
                     }
                     if (newLeft < minLeft) {
                         newLeft = minLeft;
                     }
-                    panel.css("left", newLeft + "px");
+                    scope.panel_left = "translateX(" + newLeft + "px)";
+                    scope.$apply();
                 }
             });
         }
-    };
+    }
 }]);
+/**
+ * 单个选项卡,该指令依赖uiTabSet
+ */
+directives.directive("uiTab", function () {
+    return {
+        restrict: "E",
+        require: "^uiTabSet",
+        transclude: true,
+        replace: true,
+        template: "<div class='tab-content' ng-transclude></div>",
+        link: function (scope, element, attrs, uiTabSet) {
+            uiTabSet.addHeader(attrs["heading"])
+        }
+    }
+});
+
 /**
  * 对话框指令
  */
-directives.directive("uiDialog", ["$compile", "$swipe", "$parse" , function ($compile, $swipe, $parse) {
-    return{
+directives.directive("uiDialog", ["$compile", "$swipe", "$parse", function ($compile, $swipe, $parse) {
+    return {
         restrict: 'E',
         transclude: true,
         replace: true,
-        template: '<div class="ui-dialog"><div class="overlay"></div> <div class="dialog" > <h1 class="title">提示</h1> <div class="content" ng-transclude></div><div class="actions"></div></div></div>',
-        link: function ($scope, $element, $attrs) {
-            //解析绑定的属性,该属性指定对话框是否显示
-            var dialog = {};
-            var model = $attrs["ngModel"];
-            if (model) {
-                model = $parse(model);
-                dialog = model($scope);
-                $scope.$watch(model, function () {
-                    dialog = model($scope);
-                    setDialog(dialog);
-                }, true);
-            }
+        scope: {
+            dialog: "=ngModel"
+        },
+        template: '<div class="ui-dialog" ng-class="{active:dialog.show}"><div class="overlay" touch-end="dialog.show=false"></div> <div class="dialog" > <h1 class="title">{{dialog.title}}</h1> <div class="content" ng-transclude></div>' +
+        '<div class="actions"><ui-flat-button ng-repeat="btn in dialog.buttons" touch-end="btn.click()"><ui-icon name="{{btn.icon}}" ng-if="btn.icon" file="navigation"  size="18px,18px"  color="#999"></ui-icon>{{btn.text}}</ui-flat-button></div></div></div>',
 
-            //给背景遮盖层绑定点击事件
-            var overlay = $element.find(".overlay");
-            $swipe.bind(overlay, {
-                end: function () {
-                    $element.removeClass("active");
-                    if (model) {
-                        dialog.show = false;
-                        model.assign($scope, dialog);
-                        $scope.$apply();
-                    }
-                }
-            });
-            function setDialog(dialog) {
-                if (dialog.show) {
-                    $element.addClass("active");
-                } else {
-                    $element.removeClass("active");
-                }
-                if (dialog.title) {
-                    $element.find(".title").html(dialog.title);
-                }
-                if (dialog.buttons) {
-                    var actions = $element.find(".actions").first();
-                    actions.empty();
-                    for (var i = 0; i < dialog.buttons.length; i++) {
-                        var aButton = dialog.buttons[i];
-                        var tpl = "<ui-flat-button >";
-                        if (aButton.icon) {
-                            tpl += ' <ui-icon name="' + aButton.icon + '" size="18px,18px" file="navigation" color="#999"></ui-icon>';
-                        }
-                        tpl += aButton.text + "</ui-flat-button>";
-                        $(tpl).appendTo(actions)
-                    }
-                    $compile(actions.contents())($scope);
-                    var action_btns = actions.find(".ui-flat-button");
-                    action_btns.each(function () {
-                        var index = action_btns.index(this);
-                        $swipe.bind($(this), {
-                            end: function () {
-                                dialog.buttons[index].click();
-                                $scope.$apply();
-                            }
-                        });
-                    });
-
-                }
-            }
-        }
     };
 }]);
 /**
  * 抽屉导航指令
  */
-directives.directive("uiNavigation", [ "$swipe", "$parse" , function ($swipe, $parse) {
+directives.directive("uiNavigation", ["$swipe", "$parse", function ($swipe, $parse) {
     return {
         restrict: 'E',
         transclude: true,
         replace: true,
-        template: '<div class="ui-navigation"><div class="overlay"></div><div class="content" ng-transclude></div></div>',
-        link: function ($scope, $element, $attrs) {
+        scope: {
+            active: "=active"
+        },
+        template: '<div class="ui-navigation" ng-class="{\'active\':active}"><div class="overlay" touch-end="active=false"></div><div class="content" ng-transclude></div></div>',
+        link: function (scope, element, attrs) {
 
-            if ($attrs["active"]) {
-                var model = $parse($attrs["active"]);
-                $scope.$watch(model, function () {
-                    var isActive = model($scope);
-                    if (isActive) {
-                        $element.addClass("active");
-                    } else {
-                        $element.removeClass("active");
-                    }
-                })
-            }
             //给导航父元素绑定划屏事件
-            var handle = $element.parent();
+            var parent = element.parent();
             var fromX = 0;
-            $swipe.bind(handle, {
+            $swipe.bind(parent, {
                 start: function (pos) {
                     fromX = pos.x;
                 },
                 move: function (pos) {
+                    //如果是从最左边(x小于10)开始划动就认为是要打开
                     if ((pos.x - fromX > 5) && fromX < 10) {
-                        model.assign($scope, true);
-                        $scope.$apply();
+                        scope.active = true;
+                        scope.$apply();
                     }
                 }
             });
             var x = 0;
-            $swipe.bind($element.find(".content"), {
+            $swipe.bind(element.find(".content"), {
                 start: function (pos) {
                     x = pos.x;
                 },
                 move: function (pos) {
-                    console.info(pos.x - x);
                     if (pos.x - x < -80) {
-                        model.assign($scope, false);
-                        $scope.$apply();
+                        scope.active = false;
+                        scope.$apply();
                     }
                 }
             });
-            $swipe.bind($element.find(".overlay"), {
-                end: function () {
-                    model.assign($scope, false);
-                    $scope.$apply();
-                }
-            });
-            $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState) {
+            scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState) {
                 event.targetScope.$watch('$viewContentLoaded', function () {
-                    model.assign($scope, false);
+                    scope.active = false;
                 })
             });
         }
     };
 }]);
-
-directives.directive("uiList", function () {
-    return{
-        restrict: 'C',
-        compile: function ($element, attrs) {
-            var all = $element.find(">li");
-            all.each(function () {
-                var $this = $(this);
-                var index = all.index(this);
-                var delay = 0.1;
-                var a = $this.find("a");
-                a.attr("material", true);
-                a.css("transition", "all 0.3s ease " + (delay + (index * 0.05)) + "s");
-                a.css("-webkit-transition", "all 0.3s ease " + (delay + (index * 0.05)) + "s");
-            });
-
-            return function (scope, el, attrs) {
-            }
-        }
-    };
-
-});
+/**
+ * 顶部滚动ActionBar指令
+ */
 directives.directive("uiScrollHeader", function () {
 
     return {
         restrict: 'E',
         transclude: true,
+        scope: true,
         replace: true,
-        template: '<div class="ui-scroll-header"><div class="wrapper"  ng-transclude></div></div>',
-        link: function ($scope, $element, $attrs) {
-            var $wrapper = $element.find(">.wrapper").first();
-            var $header = $('<div class="header"><div class="bg"></div></div>');
+        template: '<div class="ui-scroll-header"><div class="wrapper"  ng-transclude=""></div></div>',
+        link: function (scope, $element, $attrs) {
+            var $wrapper = $element.find(".wrapper");
+            var $header =angular.element('<div class="header"><div class="bg"></div></div>');
+            var $bg=$header.find(".bg");
             if ($attrs["backgroundImage"]) {
-                $header.find(".bg").css("background-image", "url('" + $attrs["backgroundImage"] + "')")
+                $bg.css("background-image", "url('" + $attrs["backgroundImage"] + "')")
             }
             if ($attrs["backgroundColor"]) {
                 $header.css("background-color", $attrs["backgroundColor"]);
             }
+            var $actionbar = $wrapper.find(".action-bar");
             $wrapper.prepend($header);
-            var $actionbar = $element.find(".action-bar").first();
-            var $bg = $wrapper.find(">.header>.bg");
-            $wrapper.scroll(function (pa) {
+            $wrapper.bind("scroll",function (pa) {
                 var scrollTop = $wrapper.scrollTop();
                 var alpha = scrollTop / 100;
                 alpha = alpha > 1 ? 0.99 : alpha;
@@ -899,28 +672,33 @@ directives.directive("uiScrollHeader", function () {
         }
     };
 });
-directives.directive("uiDropdown", [ "$swipe", "$parse", "$document", "$compile" , function ($swipe, $parse, $document, $compile) {
+directives.directive("uiDropdown", ["$swipe", "$parse", function ($swipe, $parse) {
     var UI_OPTIONS_REG = /^([\S]+)\sfor\s+([\S]+)\sin\s([\S]+)$/;
     return {
         restrict: 'E',
-        template: "<ul class='ui-dropdown'></ul>", replace: true,
-        link: function ($scope, $element, $attrs) {
-            var exp = $attrs["uiOptions"];
+        template: "<ul class='ui-dropdown'><li ng-repeat='item in items' ng-click='selectItem($index)' material=''>{{item}}</li></ul>",
+        replace: true,
+        require: "ngModel",
+
+        link: function ($scope, $element, $attrs, ngModel) {
+           var exp=$attrs["uiOptions"];
             var match = exp.match(UI_OPTIONS_REG);
-            var model = $parse($attrs["ngModel"]);
-            var key = match[1].split(".")[1];
-            var options = $parse(match[3])($scope);
-            angular.forEach(options, function (opt) {
-                var li = $("<li><i class='ripple'></i>" + opt[key] + "</li>");
-                $swipe.bind(li, {
-                    end: function () {
-                        model.assign($scope, opt);
-                        $scope.$apply();
-                    }
-                });
-                li.appendTo($element);
-            });
-            $compile($element.contents())($scope);
+
+            if (match && match.length == 4) {
+                var key = match[1];
+                if (key.indexOf(".") > 0) {
+                    key = key.split(".")[1];
+                }
+                var options = $parse(match[3])($scope);
+                $scope.selectItem = function (index) {
+                    ngModel.$setViewValue(options[index]);
+                };
+                $scope.items = [];
+                for (var i = 0; i < options.length; i++) {
+                    $scope.items.push(options[i][key]);
+                }
+
+            }
         }
     }
 
@@ -930,35 +708,48 @@ directives.directive("uiDropdown", [ "$swipe", "$parse", "$document", "$compile"
  * @param ui-options (required)
  *
  */
-directives.directive("uiDropdownMenu", [ "$swipe", "$parse", "$document", "$compile" , function ($swipe, $parse, $document, $compile) {
+directives.directive("uiDropdownMenu", ["$swipe", "$parse", "$document", function ($swipe, $parse, $document) {
     var UI_OPTIONS_REG = /^([\S]+)\sfor\s+([\S]+)\sin\s([\S]+)$/;
     return {
         restrict: 'E',
         replace: true,
-        template: '<div class="ui-dropdown-menu"><span></span><i class="arrow"></i></div>',
-        compile: function ($element, $attrs) {
-            var exp = $attrs["uiOptions"];
-            var match = exp.match(UI_OPTIONS_REG);
-            var key = match[1].split(".")[1];
-            var dropdown = $("<ui-dropdown></ui-dropdown>");
-            dropdown.attr("ng-model", $attrs["ngModel"]);
-            dropdown.attr("ui-options", $attrs["uiOptions"]);
-            dropdown.appendTo($element);
+        template: '<div class="ui-dropdown-menu" ui-toggle-class="active" ><span touch-end="bindDocumentClickEvent()">{{menuText}}</span><i class="arrow"></i>' +
+        '<ui-dropdown ng-model="model" ui-options="{{uiOptions}}"></ui-dropdown></div>',
+        compile:function(element,attrs){
+          var dropdown=element.find("ui-dropdown");
+            dropdown.attr("ui-options",attrs["uiOptions"]);
+            /**
+             * link function
+             */
             return function ($scope, $element, $attrs) {
-                var span = $element.find(">span");
-                $swipe.bind(span, {
-                    end: function () {
-                        $element.addClass("active");
-                        $document.bind("click", closeDropdown)
-                    }
-                });
                 var model = $parse($attrs["ngModel"]);
+                $scope.uiOptions=$attrs["uiOptions"];
+                var match = $scope.uiOptions.match(UI_OPTIONS_REG);
+                var key = "";
+                if (match && match.length == 4) {
+                    key = match[1];
+                    if (key.indexOf(".") > 0) {
+                        key = key.split(".")[1];
+                    }
+                    $scope.key = key;
+                }
                 $scope.$watch(model, function () {
                     var val = model($scope);
-                    if (val)
-                        span.html(val[key]);
-                    $element.removeClass("active");
+                    if (val) {
+                        $scope.menuText = val[key];
+                    }
                 });
+                /**
+                 * 给document绑定点击事件.如果下拉框已经打开,用户没有点击下拉框,而点击了页面的其它位置,通过给document绑定事件
+                 * 来关闭下拉框
+                 */
+                $scope.bindDocumentClickEvent = function () {
+                    $document.bind("click", closeDropdown)
+                };
+                /**
+                 * 关闭下拉框,并解除document的点击事件
+                 * @param evt
+                 */
                 function closeDropdown(evt) {
                     if (evt && $element.get(0).contains(evt.target)) {
                         return;
@@ -966,29 +757,8 @@ directives.directive("uiDropdownMenu", [ "$swipe", "$parse", "$document", "$comp
                     $element.removeClass("active");
                     $document.unbind("click", closeDropdown)
                 }
+
             }
         }
     };
 }]);
-
-directives.directive("uiMenuButton", [ "$swipe", "$parse", "$document", "$compile" , function ($swipe, $parse, $document, $compile) {
-    return {
-        restrict: 'C',
-        link: function ($scope, $element, $attrs) {
-            $swipe.bind($element, {
-                end: function () {
-                    $element.addClass("active");
-                    $document.bind("click", closeDropdown)
-                }
-            });
-            function closeDropdown(evt) {
-                if (evt && $element.get(0).contains(evt.target)) {
-                    return;
-                }
-                $element.removeClass("active");
-                $document.unbind("click", closeDropdown)
-            }
-        }
-    };
-}]);
-

@@ -4,8 +4,8 @@
         <ui-raised-button class="bg-info" ng-click="open()">Open Dialog</ui-raised-button>
     </div>
     <ui-dialog  ng-model="dialog">
-        <ui-checkbox>Notifications</ui-checkbox>
-        <ui-checkbox>AutoUpdates</ui-checkbox>
-        <ui-checkbox>Clear search history</ui-checkbox>
+        <ui-checkbox  ng-model="arr[0]">Notifications</ui-checkbox>
+        <ui-checkbox  ng-model="arr[1]">AutoUpdates</ui-checkbox>
+        <ui-checkbox  ng-model="arr[2]">Clear search history</ui-checkbox>
     </ui-dialog>
 </div>

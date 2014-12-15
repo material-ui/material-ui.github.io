@@ -61,6 +61,10 @@ app.config(['$stateProvider', '$urlRouterProvider', '$controllerProvider', '$com
                     title: 'DropdownMenu',
                     url: "/dropdownmenu",
                     templateUrl: 'app/dropmenu/dropmenu.html'
+                }).state("app.togglebutton", {
+                    title: 'ToggleButton',
+                    url: "/togglebutton",
+                    templateUrl: 'app/togglebutton/togglebutton.html'
                 })
                 .state("app.icon", {
                     title: 'Icon',
