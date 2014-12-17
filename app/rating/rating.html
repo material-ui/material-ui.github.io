@@ -1,0 +1,10 @@
+<div class="panel" ng-controller="DialogCtrl">
+    <div class="panel-heading">Rating</div>
+    <div class="panel-body" ng-init="rate=2">
+        <!--<rating ng-model="x" max="15" state-on="'glyphicon-ok-sign'" state-off="'glyphicon-ok-circle'"></rating>-->
+
+        <ui-input type="text" placeholder="Rating value" ng-model="rate"></ui-input>
+
+        <ui-rating max="5" ng-model="rate" state-on="ic-star" state-off="ic-star-outline"></ui-rating>
+    </div>
+</div>

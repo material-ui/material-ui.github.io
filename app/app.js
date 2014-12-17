@@ -57,14 +57,18 @@ app.config(['$stateProvider', '$urlRouterProvider', '$controllerProvider', '$com
                     title: 'ActionBar',
                     url: "/actionbar",
                     templateUrl: 'app/actionbar/actionbar.html'
-                }).state("app.dropdownmenu", {
-                    title: 'DropdownMenu',
-                    url: "/dropdownmenu",
-                    templateUrl: 'app/dropmenu/dropmenu.html'
+                }).state("app.select", {
+                    title: 'Select',
+                    url: "/select",
+                    templateUrl: 'app/select/select.html'
                 }).state("app.togglebutton", {
                     title: 'ToggleButton',
                     url: "/togglebutton",
                     templateUrl: 'app/togglebutton/togglebutton.html'
+                }).state("app.rating", {
+                    title: 'Rating',
+                    url: "/rating",
+                    templateUrl: 'app/rating/rating.html'
                 })
                 .state("app.icon", {
                     title: 'Icon',

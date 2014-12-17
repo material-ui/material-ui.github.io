@@ -1,0 +1,25 @@
+
+<style>
+
+    /**************************************/
+    .menu-button{
+        position: relative;display: inline-block;
+    }
+</style>
+<div class="panel" ng-controller="DropdownMenuCtrl">
+    <div class="panel-heading">Select</div>
+    <div class="panel-body">
+        <div>
+         您选中了: {{category.name}}
+          <hr/>
+        </div>
+        <ui-select ng-model="category"  items="list"  key="name"  ></ui-select>
+        <ui-select ng-model="test"   items="list"  key="name" ></ui-select>
+        <div class="menu-button"  ui-toggle-class="active" >
+            <ui-icon-button icon="nav-overflow" ></ui-icon-button>
+            <ul class="ui-dropdown">
+                <li ng-repeat="item in list"  material>{{item.name}}</li>
+            </ul>
+        </div>
+    </div>
+</div>

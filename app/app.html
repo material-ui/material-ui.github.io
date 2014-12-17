@@ -1,8 +1,8 @@
 <div ng-controller="AppCtrl">
     <div class="action-bar">
-        <ui-icon-button icon="ic-list" file="action" ng-click="showNavigation=!showNavigation"></ui-icon-button>
+        <ui-icon-button icon="ic-menu"   ng-click="showNavigation=!showNavigation"></ui-icon-button>
         <label class="title">{{$state.current.title}}</label>
-        <ui-icon-button icon="ic-more-vert" file="navigation" class="pull-right"></ui-icon-button>
+        <ui-icon-button icon="nav-overflow" f class="pull-right"></ui-icon-button>
     </div>
     <div class="main-body slide-right" ui-view></div>
     <ui-navigation active="showNavigation">
@@ -15,8 +15,9 @@
             <li><a material ui-sref="app.tab">Tab</a></li>
             <li><a material ui-sref="app.dialog">Dialog</a></li>
             <li><a material ui-sref="app.actionbar">ActionBar</a></li>
-            <li><a material ui-sref="app.dropdownmenu">DropdownMenu</a></li>
+            <li><a material ui-sref="app.select">Select</a></li>
             <li><a material ui-sref="app.togglebutton">ToggleButton</a></li>
+            <li><a material ui-sref="app.rating">Rating</a></li>
             <li><a ui-toggle-class="active" target="#icon-list">Icon</a>
                 <ul class="sub-list" id="icon-list">
                     <li><a material ui-sref="app.icon.action">Action</a></li>

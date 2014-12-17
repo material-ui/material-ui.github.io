@@ -37,7 +37,7 @@ html, body {
     margin: 0;
     padding: 0;
     font-family: RobotoDraft, "Helvetica Neue", Helvetica, Arial,'Microsoft Yahei';
-    outline: 0 color : #009688;
+    outline: 0 ;
     font-size: 16px;
     word-wrap: break-word;
     font-weight: 300;;
@@ -164,7 +164,7 @@ ul, li {
     vertical-align: top;
 }
 
-.ui-flat-button ui-icon {
+.ui-flat-button svg {
     height: 16px;
     width: 16px;
     vertical-align: middle;
@@ -210,7 +210,7 @@ ui-icon-button {
 }
 
 .ui-round-button button {
-    background: #fff;
+    background: transparent;
     font-size: 1em;
     padding: 8px;
     cursor: pointer;
@@ -278,7 +278,7 @@ ui-icon svg use {
     position: fixed;
     left: 0;
     right: 0;
-    top: 0;box-shadow: 0px 3px 3px 0px #ccc;
+    top: 0;box-shadow: 0px 3px 3px 0px #ccc;z-index: 9;
 }
 
 .action-bar label.title {
@@ -541,6 +541,10 @@ ui-icon svg use {
     -webkit-animation: inputblur 0.1s linear;
     top: 8px;
     font-size: 14px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 100%;
+    white-space: nowrap;
 }
 
 .ui-input.focus.hasVal .line {
@@ -554,7 +558,7 @@ ui-icon svg use {
     overflow-x: hidden;
     position: fixed;
     top: 48px;
-    width: 100%;
+    width: 100%;z-index: 9;
 }
 
 .ui-tab-set .tab-title {
@@ -697,6 +701,7 @@ ui-icon svg use {
     bottom: 0;
     position: fixed;
     top: 48px;
+    z-index: 9;
 
 }
 
@@ -775,4 +780,123 @@ ui-icon svg use {
     background-size: cover;
     background-position: center center;
     opacity: 0.99;
+}
+/****************************************************/
+.ui-select{
+    width: 170px;height: 35px;
+    border-bottom: 1px solid #757575;position: relative;padding-top: 4px;padding-bottom: 4px;margin-bottom: 10px;
+}
+.ui-select span{
+    width: 100%;height: 100%;display: inline-block;line-height: 26px;
+
+}
+.ui-dropdown{
+;min-width: 100%;
+    transition:all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    position: absolute;top:0px;left: 0px;z-index: 1;
+    background: #fff;box-shadow: 0px 2px 2px 2px rgba(0,0,0,0.2);padding: 12px;
+    border-radius: 2px;
+    visibility: hidden;;opacity: 0;
+    overflow: hidden;
+}
+.ui-dropdown li{
+    height: 48px;padding:10px;line-height: 28px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;text-align: left;
+}
+.active .ui-dropdown{
+    visibility: visible;
+    opacity: 1;
+}
+.ui-select .arrow{
+;position: absolute;right: 0px;bottom: 12px;
+    width: 0;     height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #757575;
+    transition:all 0.5s ease 0s;
+    -moz-transition: all 0.5s ease 0s;
+    z-index: 0;
+    transform:rotate(0deg) ;
+}
+.ui-select.active .arrow{
+    transform:rotate(180deg) ;
+}
+
+/******************************************************/
+.ui-rating{
+    margin-top: 10px;margin-bottom: 10px;;
+}
+.ui-rating li{
+    display: inline-block;width: 40px;
+    height: 40px;;
+    position: relative;line-height: 40px;text-align: center;
+}
+.ui-rating li svg{
+    margin-top: 8px;width: 24px;height: 24px;fill: #272636;
+}
+
+/***********************************************************/
+.ui-datepicker{
+    position: relative;visibility: hidden;
+}
+.ui-datepicker.active{
+    visibility: visible;
+}
+.ui-datepicker .overlay{
+    position: fixed;z-index: 8;top: 0;bottom: 0;left: 0;right: 0;
+    background:rgba(0,0,0,0);
+    transition:all 0.5s ease 0s;
+    -webkit-transition:all 0.5s ease 0s;
+}
+.ui-datepicker .dialog{
+    box-shadow: 1px 4px 10px 3px #000;
+    position: fixed;bottom: -172px;left: 0;right: 0;
+    height: 184px;background: #fff;;z-index: 9;
+    transition:all 0.5s ease 0.3s;
+    -webkit-transition:all 0.5s ease 0.3s;
+}
+.ui-datepicker.active .dialog{
+    bottom: 0;
+}
+.ui-datepicker.active .overlay{
+    background:rgba(0,0,0,0.5);
+}
+.ui-datepicker .dialog .title{
+    height: 48px;
+    text-align: center;
+    line-height: 30px;border-bottom: 1px solid #eee;position: relative;padding: 4px;
+
+}
+.ui-datepicker .dialog .title span{
+    display: inline-block;margin-top: 4px;;
+    font-size: 20px;
+}
+.ui-datepicker .dialog .title .close{
+    position: absolute;
+    left: 0;fill:#009688
+}
+.ui-datepicker .dialog .title .confirm{
+    position: absolute;
+    right: 0;fill:#009688
+}
+.ui-datepicker .dialog .selector{
+    background: #fff;
+    height: 144px;
+    overflow: hidden;
+}
+.ui-datepicker .dialog .selector .ui-scroll{
+    transition:all 0.5s ease 0s;
+    -webkit-transition:all 0.5s ease 0s;
+    float: left;width: 33.333333%;
+}
+.ui-datepicker .dialog .selector ul li{
+    display: block;
+    height: 48px;border-bottom: 1px solid #eee;
+    line-height: 48px;text-align: center;background: #fff;
+}
+.ui-datepicker .dialog .selector  ul li.active{
+    color:#009688
 }

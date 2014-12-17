@@ -2,7 +2,30 @@
  * Created by chenshiqi on 2014/12/11.
  */
 var controllers = angular.module('app.controller', []);
+/**
+ * 这个指令是为了显示所有svg图标用的,不是主要的指令,只是测试用
+ */
+controllers.directive('icon', function () {
+    return {
+        restrict: 'E',replace:true,
+        scope: true,
+        template: '<svg ng-style="{\'width\':width,\'height\':height,\'fill\':color}"   width="48" height="48" viewBox="0 0 48 48"><use xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{{svg_link}}"></use></svg>',
+        link: function (scope, $element, $attrs) {
 
+            scope.color = $attrs["color"];
+            if ($attrs["size"]) {
+                var size = $attrs["size"].split(",");
+                if (size.length != 2) {
+                    console.error("[icon]无效的size属性,size属性格式必需为:size='width,height'");
+                    return;
+                }
+                scope.width = size[0];
+                scope.height = size[1];
+            }
+            scope.svg_link = "svg/svg-icons.svg#" + $attrs["name"];
+        }
+    }
+});
 controllers.controller("AppCtrl",function($scope){
     $scope.showNavigation=false;
 });
