@@ -34,11 +34,54 @@ var directives = angular.module('material-ui', []);
  * 名称:touch服务
  * 功能:提供界面元素的触摸事件的绑定操作,用于替换angular-touch的$swipe
  * 说明: 因为$swipe只提供左右滑动事件监听,不提供上下滑动监听,使用上和$swpie没有差别
+ * 使用:
+ *  $touch.bind(element,{
+ *      start:function(pos,evt){
+ *          ...
+ *      },
+ *      move:function(pos,evt){
+ *          ...
+ *      },
+ *      end:function(pos,evt){
+ *          ...
+ *      }
+ * });
  * 版本:0.0.1
  * 日期:2014.12.17
  * 作者:陈晓伟
  */
 directives.service("$touch", function () {
+    var POINTER_EVENTS = {
+        'mouse': {
+            start: 'mousedown',
+            move: 'mousemove',
+            end: 'mouseup'
+        },
+        'touch': {
+            start: 'touchstart',
+            move: 'touchmove',
+            end: 'touchend'
+        }
+    };
+    var POINT_TYPE=isMobile()?"touch":"mouse";
+    /**
+     * 检测是否是移动端
+     * @returns {boolean}
+     */
+    function isMobile() {
+        if (navigator.userAgent.match(/Android/i)
+            || navigator.userAgent.match(/webOS/i)
+            || navigator.userAgent.match(/iPhone/i)
+            || navigator.userAgent.match(/iPad/i)
+            || navigator.userAgent.match(/iPod/i)
+            || navigator.userAgent.match(/BlackBerry/i)
+            || navigator.userAgent.match(/Windows Phone/i)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /**
      * 得到触摸坐标
      * 本函数参考于:angular-touch中源码
@@ -74,17 +117,6 @@ directives.service("$touch", function () {
         /**
          * 对外操作函数,用于绑定事件
          * bind函数使用上和angular-touch的$swipe服务一样
-         * $touch.bind(element,{
-         *      start:function(pos,evt){
-         *          ...
-         *      },
-         *      move:function(pos,evt){
-         *          ...
-         *      },
-         *      end:function(pos,evt){
-         *          ...
-         *      }
-         * });
          * @param element 要绑定的元素
          * @param param 参数
          */
@@ -92,18 +124,15 @@ directives.service("$touch", function () {
             var keydown = false;
             /**触摸开始事件绑定**/
             if (param.start) {
-                element.on("mousedown", start);
-                element.on("touchstart", start);
+                element.on(POINTER_EVENTS[POINT_TYPE]["start"], start);
             }
             //触摸拖动事件绑定
             if (param.move) {
-                element.on("mousemove", move);
-                element.on("touchmove", move);
+                element.on(POINTER_EVENTS[POINT_TYPE]["move"], move);
             }
             //触摸结束事件绑定
             if (param.end) {
-                element.on("mouseup", end);
-                element.on("touchend", end);
+                element.on(POINTER_EVENTS[POINT_TYPE]["end"], end);
             }
             /**
              * 触摸开始函数
@@ -170,13 +199,13 @@ directives.factory("$clip", function () {
 
             var x = width - radius;
             var y = height - radius;
-            var polygon = tpl
+            return tpl
                 .replace(reg_width, width + "px")
                 .replace(reg_height, height + "px")
                 .replace(reg_x, x + "px")
                 .replace(reg_y, y + "px")
                 .replace(reg_radius, radius + "px");
-            return polygon;
+
         }
     };
 });
@@ -215,8 +244,9 @@ directives.directive('touchEnd', ["$parse", "$touch", function ($parse, $touch) 
         restrict: "A",
         link: function ($scope, $element, $attrs) {
             var model = $parse($attrs["touchEnd"]);
+            var ts=0;
             $touch.bind($element, {
-                end: function () {
+                end: function (coords,evt) {
                     model($scope);
                     $scope.$apply();
                 }
